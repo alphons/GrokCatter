@@ -50,7 +50,7 @@
 			textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			textBox1.Location = new Point(12, 12);
 			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(657, 23);
+			textBox1.Size = new Size(900, 23);
 			textBox1.TabIndex = 1;
 			textBox1.TextChanged += TextBox1_TextChanged;
 			// 
@@ -64,7 +64,7 @@
 			textBox2.Multiline = true;
 			textBox2.Name = "textBox2";
 			textBox2.ScrollBars = ScrollBars.Both;
-			textBox2.Size = new Size(312, 384);
+			textBox2.Size = new Size(579, 384);
 			textBox2.TabIndex = 2;
 			// 
 			// listView1
@@ -80,6 +80,7 @@
 			listView1.UseCompatibleStateImageBehavior = false;
 			listView1.View = View.Details;
 			listView1.ItemChecked += ListView1_ItemChecked;
+			listView1.SizeChanged += ListView1_SizeChanged;
 			// 
 			// button2
 			// 
@@ -94,7 +95,7 @@
 			// button3
 			// 
 			button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			button3.Location = new Point(485, 40);
+			button3.Location = new Point(728, 40);
 			button3.Name = "button3";
 			button3.Size = new Size(79, 23);
 			button3.TabIndex = 5;
@@ -116,7 +117,7 @@
 			// button4
 			// 
 			button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			button4.Location = new Point(590, 40);
+			button4.Location = new Point(833, 40);
 			button4.Name = "button4";
 			button4.Size = new Size(79, 23);
 			button4.TabIndex = 7;
@@ -139,7 +140,7 @@
 			// 
 			splitContainer1.Panel2.Controls.Add(listView2);
 			splitContainer1.Panel2.Controls.Add(textBox2);
-			splitContainer1.Size = new Size(660, 390);
+			splitContainer1.Size = new Size(903, 390);
 			splitContainer1.SplitterDistance = 150;
 			splitContainer1.SplitterWidth = 8;
 			splitContainer1.TabIndex = 8;
@@ -181,7 +182,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(684, 471);
+			ClientSize = new Size(927, 471);
 			Controls.Add(button5);
 			Controls.Add(comboBox1);
 			Controls.Add(splitContainer1);

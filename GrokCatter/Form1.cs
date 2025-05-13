@@ -5,6 +5,7 @@ namespace GrokCatter
 {
 	public partial class Form1 : Form
 	{
+		private readonly string[] Wanted = [".txt", ".cs", ".cshtml", ".html", ".htm", ".css", ".js", ".json"];
 		private readonly string Data = Path.Combine(AppContext.BaseDirectory, "Data");
 		public Form1()
 		{
@@ -30,18 +31,31 @@ namespace GrokCatter
 			{
 				this.listView1.Items.Clear();
 
-				if (!Directory.Exists(this.textBox1.Text))
+				var dir = this.textBox1.Text.Trim();
+				if (!Directory.Exists(dir))
 				{
-					MessageBox.Show("Invalid directory path!", "Error",
-						MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 
-				var files = Directory.GetFiles(textBox1.Text);
+				var len = dir.Length;
+
+				var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
 
 				foreach (var file in files)
 				{
-					var item = new ListViewItem(Path.GetFileName(file))
+					var name = file[len..];
+					if (name.Contains("\\obj\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\bin\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\.vs\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\appsettings.", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\launchsettings.", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\.config\\", StringComparison.CurrentCultureIgnoreCase))
+							continue;
+
+					var ext = Path.GetExtension(name);
+					if (!Wanted.Contains(ext))
+						continue;
+					var item = new ListViewItem(name)
 					{
 						Tag = file
 					};
@@ -53,8 +67,6 @@ namespace GrokCatter
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Error: {ex.Message}", "Error",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -165,7 +177,7 @@ namespace GrokCatter
 				if (items.Count > 0)
 				{
 					using var stream = File.OpenWrite(path);
-					await JsonSerializer.SerializeAsync(stream, items);
+					await JsonSerializer.SerializeAsync(stream, items, new JsonSerializerOptions() { WriteIndented = true } );
 				}
 
 				var todelete = this.listView2
@@ -216,6 +228,19 @@ namespace GrokCatter
 		private void TextBox1_TextChanged(object sender, EventArgs e)
 		{
 			ShowFiles(sender, e);
+		}
+
+		private void ListView1_SizeChanged(object sender, EventArgs e)
+		{
+			int aantalKolommen = listView1.Columns.Count;
+			if (aantalKolommen > 0)
+			{
+				int breedtePerKolom = listView1.ClientSize.Width / aantalKolommen;
+				foreach (ColumnHeader kolom in listView1.Columns)
+				{
+					kolom.Width = breedtePerKolom;
+				}
+			}
 		}
 	}
 }
