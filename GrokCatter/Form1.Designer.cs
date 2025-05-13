@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			button1 = new Button();
 			textBox1 = new TextBox();
 			textBox2 = new TextBox();
 			listView1 = new ListView();
@@ -46,16 +45,6 @@
 			splitContainer1.SuspendLayout();
 			SuspendLayout();
 			// 
-			// button1
-			// 
-			button1.Location = new Point(12, 40);
-			button1.Name = "button1";
-			button1.Size = new Size(79, 23);
-			button1.TabIndex = 0;
-			button1.Text = "List Files";
-			button1.UseVisualStyleBackColor = true;
-			button1.Click += Button1_Click;
-			// 
 			// textBox1
 			// 
 			textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -63,6 +52,7 @@
 			textBox1.Name = "textBox1";
 			textBox1.Size = new Size(657, 23);
 			textBox1.TabIndex = 1;
+			textBox1.TextChanged += TextBox1_TextChanged;
 			// 
 			// textBox2
 			// 
@@ -74,7 +64,7 @@
 			textBox2.Multiline = true;
 			textBox2.Name = "textBox2";
 			textBox2.ScrollBars = ScrollBars.Both;
-			textBox2.Size = new Size(320, 384);
+			textBox2.Size = new Size(312, 384);
 			textBox2.TabIndex = 2;
 			// 
 			// listView1
@@ -115,7 +105,7 @@
 			// checkBox1
 			// 
 			checkBox1.AutoSize = true;
-			checkBox1.Location = new Point(108, 43);
+			checkBox1.Location = new Point(12, 43);
 			checkBox1.Name = "checkBox1";
 			checkBox1.Size = new Size(38, 19);
 			checkBox1.TabIndex = 6;
@@ -200,7 +190,6 @@
 			Controls.Add(button3);
 			Controls.Add(button2);
 			Controls.Add(textBox1);
-			Controls.Add(button1);
 			MinimumSize = new Size(700, 0);
 			Name = "Form1";
 			Text = "Cat the files";
@@ -214,8 +203,6 @@
 		}
 
 		#endregion
-
-		private Button button1;
 		private TextBox textBox1;
 		private TextBox textBox2;
 		private ListView listView1;

@@ -24,11 +24,6 @@ namespace GrokCatter
 			this.comboBox1.Items.AddRange([.. files.Select(x => Path.GetFileNameWithoutExtension(x))]);
 		}
 
-		private void Button1_Click(object sender, EventArgs e)
-		{
-			ShowFiles(sender, e);
-		}
-
 		private void ShowFiles(object sender, EventArgs e)
 		{
 			try
@@ -209,13 +204,18 @@ namespace GrokCatter
 
 			await BackupSaveAndDeleteBackupAsync(this.comboBox1.Text);
 
-			for(int i=0;i<this.comboBox1.Items.Count;i++)
+			for (int i = 0; i < this.comboBox1.Items.Count; i++)
 			{
 				if (this.comboBox1.Items[i]?.ToString() == this.comboBox1.Text)
 					return;
 			}
 			this.comboBox1.Items.Add(this.comboBox1.Text);
 
+		}
+
+		private void TextBox1_TextChanged(object sender, EventArgs e)
+		{
+			ShowFiles(sender, e);
 		}
 	}
 }
