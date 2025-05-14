@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 
 namespace GrokCatter
@@ -70,13 +71,9 @@ namespace GrokCatter
 			}
 		}
 
-		private void Button3_Click(object sender, EventArgs e)
-		{
-			this.textBox2.Clear();
-		}
-
 		private async void Button2_Click(object sender, EventArgs e)
 		{
+			var sb = new StringBuilder();
 			var selectedItems = listView2.Items.Cast<ListViewItem>().ToList();
 			foreach (var selectedItem in selectedItems)
 			{
@@ -84,11 +81,12 @@ namespace GrokCatter
 				if (file == null)
 					continue;
 				var text = await File.ReadAllTextAsync(file);
-				this.textBox2.AppendText(Environment.NewLine);
-				this.textBox2.AppendText($"// {Path.GetFileName(file)}{Environment.NewLine}");
-				this.textBox2.AppendText($"// ------------------------{Environment.NewLine}");
-				this.textBox2.AppendText(text);
+				sb.AppendLine();
+				sb.AppendLine($"// {Path.GetFileName(file)}");
+				sb.AppendLine($"// ------------------------");
+				sb.AppendLine(text);
 			}
+			Clipboard.SetText(sb.ToString());
 		}
 
 		private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -97,11 +95,6 @@ namespace GrokCatter
 			{
 				lvi.Checked = this.checkBox1.Checked;
 			}
-		}
-
-		private void Button4_Click(object sender, EventArgs e)
-		{
-			Clipboard.SetText(this.textBox2.Text);
 		}
 
 		private void ListView1_ItemChecked(object sender, ItemCheckedEventArgs e)
