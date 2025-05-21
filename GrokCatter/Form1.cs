@@ -48,7 +48,6 @@ namespace GrokCatter
 					if (name.Contains("\\obj\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\bin\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\.vs\\", StringComparison.CurrentCultureIgnoreCase) ||
-						name.Contains("\\appsettings.", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\launchsettings.", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\.config\\", StringComparison.CurrentCultureIgnoreCase))
 							continue;
