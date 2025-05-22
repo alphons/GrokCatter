@@ -64,7 +64,7 @@
 			listView1.UseCompatibleStateImageBehavior = false;
 			listView1.View = View.Details;
 			listView1.ItemChecked += ListView1_ItemChecked;
-			listView1.SizeChanged += ListView1_SizeChanged;
+			listView1.SizeChanged += ListView_SizeChanged;
 			// 
 			// button2
 			// 
@@ -119,6 +119,7 @@
 			listView2.TabIndex = 4;
 			listView2.UseCompatibleStateImageBehavior = false;
 			listView2.View = View.Details;
+			listView2.SizeChanged += ListView_SizeChanged;
 			// 
 			// comboBox1
 			// 

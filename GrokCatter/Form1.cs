@@ -79,6 +79,8 @@ namespace GrokCatter
 				var file = selectedItem?.Tag?.ToString();
 				if (file == null)
 					continue;
+				if (!File.Exists(file))
+					continue;
 				var text = await File.ReadAllTextAsync(file);
 				sb.AppendLine();
 				sb.AppendLine($"// {Path.GetFileName(file)}");
@@ -222,8 +224,9 @@ namespace GrokCatter
 			ShowFiles(sender, e);
 		}
 
-		private void ListView1_SizeChanged(object sender, EventArgs e)
+		private void ListView_SizeChanged(object sender, EventArgs e)
 		{
+			var listView = sender as ListView;
 			int aantalKolommen = listView1.Columns.Count;
 			if (aantalKolommen > 0)
 			{
@@ -234,5 +237,7 @@ namespace GrokCatter
 				}
 			}
 		}
+
+		
 	}
 }
