@@ -1,6 +1,5 @@
-using EnvDTE80;
+
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -64,7 +63,7 @@ namespace GrokCatter
 								if (arg.EndsWith(".sln", StringComparison.OrdinalIgnoreCase) && File.Exists(arg))
 								{
 									Console.WriteLine($"Oplossingspad gevonden: {arg}");
-									return arg;
+									return Path.GetDirectoryName( arg);
 								}
 							}
 						}
