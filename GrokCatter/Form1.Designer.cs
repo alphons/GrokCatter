@@ -109,13 +109,12 @@
 			// 
 			// listView2
 			// 
-			listView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			listView2.CheckBoxes = true;
 			listView2.GridLines = true;
 			listView2.HeaderStyle = ColumnHeaderStyle.None;
 			listView2.Location = new Point(3, 3);
 			listView2.Name = "listView2";
-			listView2.Size = new Size(321, 384);
+			listView2.Size = new Size(317, 384);
 			listView2.TabIndex = 4;
 			listView2.UseCompatibleStateImageBehavior = false;
 			listView2.View = View.Details;

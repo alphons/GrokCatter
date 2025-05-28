@@ -6,7 +6,6 @@ namespace GrokCatter
 {
 	public partial class Form1 : Form
 	{
-		private readonly string[] Wanted = [".txt", ".cs", ".cshtml", ".html", ".htm", ".css", ".js", ".json"];
 		private readonly string Data = Path.Combine(AppContext.BaseDirectory, "Data");
 		public Form1()
 		{
@@ -15,6 +14,9 @@ namespace GrokCatter
 			listView1.Columns.Add("Name", 150);
 
 			listView2.Columns.Add("Name", 150);
+
+			ListView_SizeChanged(this.listView1, null);
+			ListView_SizeChanged(this.listView2, null);
 
 			FillComboBox();
 		}
@@ -48,17 +50,14 @@ namespace GrokCatter
 					if (name.Contains("\\obj\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\bin\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\.vs\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\.git\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\launchsettings.", StringComparison.CurrentCultureIgnoreCase) ||
-						name.Contains("\\.config\\", StringComparison.CurrentCultureIgnoreCase))
+						name.Contains("\\.config\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("Development.json", StringComparison.CurrentCultureIgnoreCase)
+						) 
 							continue;
 
-					var ext = Path.GetExtension(name);
-					if (!Wanted.Contains(ext))
-						continue;
-					var item = new ListViewItem(name)
-					{
-						Tag = file
-					};
+					var item = new ListViewItem(name) { Tag = file };
 
 					listView1.Items.Add(item);
 				}
@@ -83,9 +82,9 @@ namespace GrokCatter
 					continue;
 				var text = await File.ReadAllTextAsync(file);
 				sb.AppendLine();
-				sb.AppendLine($"// {Path.GetFileName(file)}");
-				sb.AppendLine($"// ------------------------");
+				sb.AppendLine($"// -- BEGIN {file} --");
 				sb.AppendLine(text);
+				sb.AppendLine($"// -- END {file} --");
 			}
 			Clipboard.SetText(sb.ToString());
 		}
@@ -230,8 +229,8 @@ namespace GrokCatter
 			int aantalKolommen = listView1.Columns.Count;
 			if (aantalKolommen > 0)
 			{
-				int breedtePerKolom = listView1.ClientSize.Width / aantalKolommen;
-				foreach (ColumnHeader kolom in listView1.Columns)
+				int breedtePerKolom = listView.ClientSize.Width / aantalKolommen;
+				foreach (ColumnHeader kolom in listView.Columns)
 				{
 					kolom.Width = breedtePerKolom;
 				}
