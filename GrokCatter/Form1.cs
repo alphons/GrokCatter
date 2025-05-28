@@ -1,6 +1,9 @@
+using EnvDTE80;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace GrokCatter
 {
@@ -18,6 +21,8 @@ namespace GrokCatter
 			ListView_SizeChanged(this.listView1, null);
 			ListView_SizeChanged(this.listView2, null);
 
+			this.textBox1.Text = GetSolFile();
+
 			FillComboBox();
 		}
 
@@ -28,6 +33,57 @@ namespace GrokCatter
 			this.comboBox1.Items.AddRange([.. files.Select(x => Path.GetFileNameWithoutExtension(x))]);
 		}
 
+		private string GetSolFile()
+		{
+			try
+			{
+				// Zoek alle Visual Studio-processen (devenv.exe)
+				var processes = Process.GetProcessesByName("devenv");
+				if (processes.Length == 0)
+				{
+					Console.WriteLine("Geen Visual Studio-processen gevonden.");
+					return string.Empty;
+				}
+
+				foreach (var process in processes)
+				{
+					try
+					{
+						using (var searcher = new System.Management.ManagementObjectSearcher(
+					$"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {process.Id}"))
+						{
+							string commandLine = searcher.Get().Cast<System.Management.ManagementObject>()
+								.FirstOrDefault()?["CommandLine"]?.ToString() ?? "";
+							Console.WriteLine($"CommandLine voor proces {process.Id}: {commandLine}");
+
+							var args = Regex.Matches(commandLine, @"(""[^""]+""|[^\s""]+)+")
+								.Cast<Match>().Select(m => m.Value.Trim('"')).ToList();
+							foreach (var arg in args)
+							{
+								if (arg.Contains("Catter")) continue;
+								if (arg.EndsWith(".sln", StringComparison.OrdinalIgnoreCase) && File.Exists(arg))
+								{
+									Console.WriteLine($"Oplossingspad gevonden: {arg}");
+									return arg;
+								}
+							}
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"Fout bij proces {process.Id}: {ex.Message}");
+					}
+				}
+
+				Console.WriteLine("Geen oplossingspad gevonden in de commandoregel.");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Algemene fout: " + ex.Message);
+			}
+			return string.Empty;
+		}
+
 		private void ShowFiles(object sender, EventArgs e)
 		{
 			try
@@ -36,9 +92,7 @@ namespace GrokCatter
 
 				var dir = this.textBox1.Text.Trim();
 				if (!Directory.Exists(dir))
-				{
 					return;
-				}
 
 				var len = dir.Length;
 
@@ -50,19 +104,21 @@ namespace GrokCatter
 					if (name.Contains("\\obj\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\bin\\", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\.vs\\", StringComparison.CurrentCultureIgnoreCase) ||
-						name.Contains("\\.git\\", StringComparison.CurrentCultureIgnoreCase) ||
-						name.Contains("\\launchsettings.", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains("\\.git", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("\\.config\\", StringComparison.CurrentCultureIgnoreCase) ||
+						name.Contains(".user", StringComparison.CurrentCultureIgnoreCase) ||
 						name.Contains("Development.json", StringComparison.CurrentCultureIgnoreCase)
 						) 
 							continue;
+					var ext = Path.GetExtension(name);
 
-					var item = new ListViewItem(name) { Tag = file };
+					var blnChecked = ext == ".cs" || ext == ".cshtml" || ext == ".html" || ext == ".htm";
+					var item = new ListViewItem(name) { Checked = blnChecked, Tag = file };
 
 					listView1.Items.Add(item);
 				}
 
-				CheckBox1_CheckedChanged(sender, e);
+				//CheckBox1_CheckedChanged(sender, e);
 			}
 			catch (Exception ex)
 			{
