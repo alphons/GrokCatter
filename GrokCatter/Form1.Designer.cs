@@ -47,7 +47,7 @@
 			textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			textBox1.Location = new Point(12, 12);
 			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(657, 23);
+			textBox1.Size = new Size(695, 23);
 			textBox1.TabIndex = 1;
 			textBox1.TextChanged += TextBox1_TextChanged;
 			// 
@@ -59,7 +59,7 @@
 			listView1.HeaderStyle = ColumnHeaderStyle.None;
 			listView1.Location = new Point(0, 0);
 			listView1.Name = "listView1";
-			listView1.Size = new Size(325, 390);
+			listView1.Size = new Size(325, 330);
 			listView1.TabIndex = 3;
 			listView1.UseCompatibleStateImageBehavior = false;
 			listView1.View = View.Details;
@@ -69,7 +69,7 @@
 			// button2
 			// 
 			button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-			button2.Location = new Point(598, 39);
+			button2.Location = new Point(636, 39);
 			button2.Name = "button2";
 			button2.Size = new Size(73, 23);
 			button2.TabIndex = 4;
@@ -102,19 +102,20 @@
 			// splitContainer1.Panel2
 			// 
 			splitContainer1.Panel2.Controls.Add(listView2);
-			splitContainer1.Size = new Size(660, 390);
+			splitContainer1.Size = new Size(698, 330);
 			splitContainer1.SplitterDistance = 325;
 			splitContainer1.SplitterWidth = 8;
 			splitContainer1.TabIndex = 8;
 			// 
 			// listView2
 			// 
+			listView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			listView2.CheckBoxes = true;
 			listView2.GridLines = true;
 			listView2.HeaderStyle = ColumnHeaderStyle.None;
 			listView2.Location = new Point(3, 3);
 			listView2.Name = "listView2";
-			listView2.Size = new Size(317, 384);
+			listView2.Size = new Size(359, 324);
 			listView2.TabIndex = 4;
 			listView2.UseCompatibleStateImageBehavior = false;
 			listView2.View = View.Details;
@@ -144,7 +145,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(684, 471);
+			ClientSize = new Size(722, 411);
 			Controls.Add(button5);
 			Controls.Add(comboBox1);
 			Controls.Add(splitContainer1);
