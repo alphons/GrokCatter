@@ -111,7 +111,7 @@ namespace GrokCatter
 							continue;
 					var ext = Path.GetExtension(name);
 
-					var blnChecked = ext == ".cs" || ext == ".cshtml" || ext == ".html" || ext == ".htm";
+					var blnChecked = ext == ".cs" || ext == ".cshtml" || ext == ".html" || ext == ".htm" || ext == ".kt";
 					var item = new ListViewItem(name) { Checked = blnChecked, Tag = file };
 
 					listView1.Items.Add(item);
